@@ -1,0 +1,51 @@
+# Python-related files
+*.pyc
+*.pyo
+*.pyd
+server/server/__pycache__/*
+__pycache__/
+*.pyo
+*.pyd
+*.py[cod]
+*$py.class
+
+# Django-related files
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+.env
+*.log
+*.pot
+*.py[co]
+local_settings.py
+
+# Ignore virtual environment
+env/
+venv/
+ENV/
+.venv/
+
+# Ignore IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Windows files
+Thumbs.db
+ehthumbs.db
+
+# Ignore node_modules if using npm/yarn
+node_modules/
+
+# Ignore compiled files
+*.swp
+*~
+*.bak
+*.backup
+*.orig
+*.tmp
