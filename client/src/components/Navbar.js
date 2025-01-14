@@ -19,7 +19,9 @@ export default function Navbar() {
                 <SignedIn>
                     <UserButton />
                 </SignedIn>
-                <Github  className='hover:bg-slate-800 w-10 h-10 p-2 rounded-full'/>
+                <a href='https://github.com/OmkarAnbhule/ChatBot'>
+                    <Github className='hover:bg-slate-800 w-10 h-10 p-2 rounded-full' />
+                </a>
                 <ModeToggle />
             </div>
         </div>
