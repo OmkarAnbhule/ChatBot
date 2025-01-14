@@ -27,9 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["https://chatbot-5qi6.onrender.com" , "chatbot-5qi6.onrender.com" , "https://chatbot-pro-dun.vercel.app/" , "chatbot-pro-dun.vercel.app" ]
+ALLOWED_HOSTS = [
+    "0.0.0.0",
+    "localhost",
+    "127.0.0.1",
+    "chatbot-5qi6.onrender.com",
+    "chatbot-pro-dun.vercel.app",
+]
 
 CHANNEL_LAYERS = {
     "default": {
