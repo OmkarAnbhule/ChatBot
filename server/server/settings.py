@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://chatbot-5qi6.onrender.com" , "chatbot-5qi6.onrender.com" , "https://chatbot-pro-psi.vercel.app" , "chatbot-pro-psi.vercel.app" ]
 
 CHANNEL_LAYERS = {
     "default": {
