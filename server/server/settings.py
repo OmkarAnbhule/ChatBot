@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
     os.getenv("CLIENT_URL"),
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", f"https://${os.getenv('CLIENT_URL')}"]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", f"https://{os.getenv('CLIENT_URL')}"]
 
 CHANNEL_LAYERS = {
     "default": {
