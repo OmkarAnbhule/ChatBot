@@ -85,8 +85,8 @@ const ChatRoom = () => {
 
                 {loading && (
                     <div key="loading" className="text-xl my-1 p-2 flex gap-2">
-                        <div className="relative w-fit h-fit">
-                            <p className="">Thinking....</p>
+                        <div className="relative w-fit h-fit p-2 text-black dark:text-white">
+                            <p className="p-1">Thinking....</p>
                             <BorderBeam />
                         </div>
                     </div>
