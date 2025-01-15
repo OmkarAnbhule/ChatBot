@@ -3,6 +3,7 @@ import {
 } from '@clerk/nextjs'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import ReduxProvider from '@/store/redux-provider'
 export default function RootLayout({
   children,
 }) {
@@ -10,14 +11,16 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <ReduxProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </ReduxProvider>
         </body>
       </html>
     </ClerkProvider>

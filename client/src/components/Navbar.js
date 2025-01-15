@@ -2,10 +2,38 @@
 import React, { useEffect } from 'react';
 // import toast from 'react-hot-toast';
 import { ModeToggle } from './ui/toggle-mode';
-import { SignedIn, SignedOut, SignInButton, UserButton, useSignIn } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton, useSignIn, useSignUp } from '@clerk/nextjs';
 import { Github } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/store/slices/userSlice';
 
 export default function Navbar() {
+    const { isLoaded: isLoginLoaded } = useSignIn()
+    const { isLoaded: isSignupLoaded } = useSignUp()
+    const dispatch = useDispatch()
+    const { userId } = useAuth()
+    const updateUser = async () => {
+        const response = await fetch("http://localhost:8000/api/store_user_data/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                clerk_user_id: userId,
+            }),
+        });
+        const { user_id } = await response.json();
+        dispatch(setUser({
+            authenticated: true,
+            user_id,
+            clerk_user_id: userId
+        }))
+    }
+    useEffect(() => {
+        if (isSignupLoaded || isLoginLoaded) {
+            updateUser()
+        }
+    }, [isSignupLoaded, isLoginLoaded])
     return (
         <div className="w-full flex border-b-2 h-[80px] fixed top-0 justify-between p-3 backdrop-blur-xl z-10">
             <div className="w-fit h-full flex justify-around items-center p-2">

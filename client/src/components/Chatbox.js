@@ -3,12 +3,14 @@ import { useSocket } from '@/utils/Socket';
 import { useEffect, useRef, useState } from 'react';
 import TypingAnimation from './ui/typing-animation';
 import StarIcon from './ui/star-icon';
-import { Input } from './ui/input';
 import { Meteors } from './ui/meteors';
 import { BorderBeam } from './ui/border-beam';
 import InteractiveHoverButton from './ui/interactive-hover-button';
+import { useAuth } from '@clerk/nextjs';
+import { useSelector } from 'react-redux';
 
-const ChatRoom = ({ roomName }) => {
+const ChatRoom = () => {
+    const user = useSelector((state) => state.user)
     const [messages, setMessages] = useState([]);
     const chatLogRef = useRef(null);
     const messageInputRef = useRef(null);
@@ -20,6 +22,7 @@ const ChatRoom = ({ roomName }) => {
             const data = JSON.parse(e.data);
             setMessages((prevMessages) => [...prevMessages, data.message]);
             chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+            setLoading(false);
         };
 
         socket.onclose = () => {
@@ -31,19 +34,17 @@ const ChatRoom = ({ roomName }) => {
         };
     }, [socket]);
 
+    console.log(loading)
+
     const handleSendMessage = () => {
         setLoading(true);
         const message = messageInputRef.current.value;
         if (message.trim() === '') return;
 
         setMessages((prevMessages) => [...prevMessages, message]);
-        socket.send(JSON.stringify({ message }));
+        socket.send(JSON.stringify({ message, user_id: user.user_id }));
 
         messageInputRef.current.value = '';
-
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000)
     };
 
     const handleKeyUp = (e) => {
@@ -63,44 +64,33 @@ const ChatRoom = ({ roomName }) => {
             <Meteors number={30} />
             <div
                 ref={chatLogRef}
-                className="w-full max-w-5xl h-[480px] scroll-smooth select-none p-6 mb-4 overflow-y-auto text-white rounded-lg shadow-inner scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
+                className="w-full max-w-5xl h-[480px] scroll-smooth border-none select-none p-6 mb-4 overflow-y-auto text-white rounded-lg shadow-inner scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200"
             >
-                {messages.map((msg, index) => {
-                    return (
-                        index % 2 == 0 ?
-                            (
-                                <div key={index} className='w-full flex justify-end'>
-                                    <p className=" text-xl my-1 w-fit flex justify-end rounded-lg h-fit px-3 py-2 bg-slate-600">
-                                        {msg}
-                                    </p>
-                                </div>
-                            )
-                            :
-                            (
-                                <div key={index} className="text-xl my-1 p-2 flex gap-2">
-                                    {
-                                        loading && index == messages.length - 1 ?
-                                            (
-                                                <div className='relative w-fit h-fit'>
-                                                    <p>
-                                                        Thinking....
-                                                    </p>
-                                                    <BorderBeam />
-                                                </div>
-                                            )
-                                            : (
-                                                <>
-                                                    <StarIcon />
-                                                    <TypingAnimation className={'text-xl font-normal my-1'}>
-                                                        {msg}
-                                                    </TypingAnimation>
-                                                </>
-                                            )
-                                    }
-                                </div>
-                            )
+                {messages.map((msg, index) => (
+                    index % 2 === 0 ? (
+                        <div key={index} className="w-full flex justify-end">
+                            <p className="text-xl my-1 w-fit flex justify-end rounded-lg h-fit px-3 py-2 bg-slate-600">
+                                {msg}
+                            </p>
+                        </div>
+                    ) : (
+                        <div key={index} className="text-xl my-1 p-2 flex gap-2">
+                            <StarIcon />
+                            <TypingAnimation className="text-xl text-black dark:text-white font-normal my-1">
+                                {msg}
+                            </TypingAnimation>
+                        </div>
                     )
-                })}
+                ))}
+
+                {loading && (
+                    <div key="loading" className="text-xl my-1 p-2 flex gap-2">
+                        <div className="relative w-fit h-fit">
+                            <p className="">Thinking....</p>
+                            <BorderBeam />
+                        </div>
+                    </div>
+                )}
             </div>
             <div className="flex w-full max-w-3xl">
                 <input
