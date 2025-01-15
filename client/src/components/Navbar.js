@@ -13,7 +13,7 @@ export default function Navbar() {
     const dispatch = useDispatch()
     const { userId } = useAuth()
     const updateUser = async () => {
-        const response = await fetch("http://localhost:8000/api/store_user_data/", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/store_user_data/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
