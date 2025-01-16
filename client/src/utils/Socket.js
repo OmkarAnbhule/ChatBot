@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 let socket = null;
 
 export const useSocket = () => {
@@ -17,6 +19,7 @@ export const useSocket = () => {
 
         // Event listener for socket error event
         socket.onerror = (error) => {
+            toast.error('Failed to connect to the chat server. Please try again in 40-50 sec approx.');
             console.error('Socket error:', error);
         };
     }

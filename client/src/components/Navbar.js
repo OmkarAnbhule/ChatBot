@@ -13,21 +13,26 @@ export default function Navbar() {
     const dispatch = useDispatch()
     const { userId } = useAuth()
     const updateUser = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/store_user_data/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                clerk_user_id: userId,
-            }),
-        });
-        const { user_id } = await response.json();
-        dispatch(setUser({
-            authenticated: true,
-            user_id,
-            clerk_user_id: userId
-        }))
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/store_user_data/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    clerk_user_id: userId,
+                }),
+            })
+            const { user_id } = await response.json();
+            dispatch(setUser({
+                authenticated: true,
+                user_id,
+                clerk_user_id: userId
+            }))
+        }
+        catch (e) {
+            console.log(e)
+        }
     }
     useEffect(() => {
         if (isSignupLoaded || isLoginLoaded) {
@@ -35,7 +40,7 @@ export default function Navbar() {
         }
     }, [isSignupLoaded, isLoginLoaded])
     return (
-        <div className="w-full flex border-b-2 h-[80px] fixed top-0 justify-between p-3 backdrop-blur-xl z-10">
+        <div className="w-full flex border-b-2 h-[80px] border-gray-600 fixed top-0 justify-between p-3 backdrop-blur-xl z-10">
             <div className="w-fit h-full flex justify-around items-center p-2">
                 <img src="/logo.svg" width={90} height={90} alt="ChatBot Logo" />
                 <p className='font-bold text-2xl'>ChatBot</p>

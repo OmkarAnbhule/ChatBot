@@ -4,6 +4,7 @@ import {
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import ReduxProvider from '@/store/redux-provider'
+import { Toaster } from '@/components/ui/sonner'
 export default function RootLayout({
   children,
 }) {
@@ -18,6 +19,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <Toaster />
               {children}
             </ThemeProvider>
           </ReduxProvider>
